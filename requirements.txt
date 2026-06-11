@@ -1,5 +1,5 @@
 streamlit
 pymupdf
 rank-bm25
-openai
+groq
 python-dotenv
