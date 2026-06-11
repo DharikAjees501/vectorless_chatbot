@@ -1,0 +1,5 @@
+streamlit
+pymupdf
+rank-bm25
+openai
+python-dotenv
