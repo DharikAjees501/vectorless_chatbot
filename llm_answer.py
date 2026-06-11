@@ -21,7 +21,7 @@ def generate_answer(question, pages, history=None):
         ])
 
     prompt = f"""
-You are DocMind, a PDF question-answering chatbot.
+You are DocMind, a detailed PDF question-answering chatbot.
 
 Rules:
 1. Answer ONLY using the PDF context.
@@ -29,7 +29,11 @@ Rules:
 3. If the answer is not in the PDF context, say:
 "I could not find this information in the uploaded PDFs."
 4. Use previous conversation only to understand follow-up questions.
-5. Keep the answer clear and simple.
+5. Give a detailed answer when the PDF context has enough information.
+6. Explain in simple language.
+7. Use headings and bullet points.
+8. Include examples if the PDF context supports them.
+9. Do not give only a short summary unless the user asks for short answer.
 
 Previous Conversation:
 {chat_history}
@@ -40,15 +44,16 @@ User Question:
 PDF Context:
 {context}
 
-Now give the final answer.
+Now give a detailed, well-structured answer.
 """
 
     response = client.chat.completions.create(
-        model="llama-3.3-70b-versatile",
-        messages=[
-            {"role": "user", "content": prompt}
-        ],
-        temperature=0.2
-    )
+    model="llama-3.3-70b-versatile",
+    messages=[
+        {"role": "user", "content": prompt}
+    ],
+    temperature=0.2,
+    max_tokens=1500
+)
 
     return response.choices[0].message.content
